@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { m, useScroll, useTransform } from "framer-motion";
 import { HeartHandshake, Quote } from "lucide-react";
 import { useSiteData } from "@/lib/context/SiteDataContext";
@@ -254,6 +255,16 @@ export default function OrphanCareSection() {
               <p className="font-tajawal text-[10px] font-bold uppercase tracking-widest text-accent-light block">
                 Badrulhuda Academy Community Welfare Initiative
               </p>
+            </div>
+
+            <div className="pt-4 text-start">
+              <Link
+                href="/charity"
+                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-primary hover:bg-primary-light text-white font-bold text-body-sm shadow-sm hover:shadow-lg transition-all duration-300 group"
+              >
+                <span>Support This Initiative</span>
+                <HeartHandshake className="w-4 h-4 text-accent transition-transform duration-300 group-hover:scale-110" />
+              </Link>
             </div>
           </m.div>
         </m.div>
