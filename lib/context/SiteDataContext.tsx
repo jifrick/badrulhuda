@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { PROGRAMS, EVENTS, CONTACT_INFO, Program, EventItem } from "@/lib/constants";
 import { GALLERY_CONFIG, GallerySectionConfig, GalleryImage } from "@/lib/gallery-config";
-import { supabase } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 // --- INTERFACES ---
 
@@ -185,30 +185,34 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
       setContactInfo(getStored("contactInfo", CONTACT_INFO));
       setSettings(getStored("settings", defaultSettings));
 
-      // Then query Supabase to overwrite with latest server-side database truth
-      try {
-        const { data, error } = await supabase.from("site_content").select("*");
-        if (error) {
-          console.warn("Supabase content table not accessible. Falling back to local data. Setup SQL tables if this is a fresh setup.", error);
-        } else if (data && data.length > 0) {
-          data.forEach((row) => {
-            switch (row.key) {
-              case "homepageHero": setHomepageHero(row.value); break;
-              case "programs": setPrograms(row.value); break;
-              case "galleryConfig": setGalleryConfig(row.value); break;
-              case "events": setEvents(row.value); break;
-              case "admissionsApplications": setAdmissionsApplications(row.value); break;
-              case "orphanBeneficiaries": setOrphanBeneficiaries(row.value); break;
-              case "announcements": setAnnouncements(row.value); break;
-              case "donationDetails": setDonationDetails(row.value); break;
-              case "contactInfo": setContactInfo(row.value); break;
-              case "settings": setSettings(row.value); break;
-            }
-          });
+      // Then query Supabase to overwrite with latest server-side database truth (only if configured)
+      if (isSupabaseConfigured) {
+        try {
+          const { data, error } = await supabase.from("site_content").select("*");
+          if (error) {
+            console.warn("Supabase content table not accessible. Falling back to local data. Setup SQL tables if this is a fresh setup.", error);
+          } else if (data && data.length > 0) {
+            data.forEach((row) => {
+              switch (row.key) {
+                case "homepageHero": setHomepageHero(row.value); break;
+                case "programs": setPrograms(row.value); break;
+                case "galleryConfig": setGalleryConfig(row.value); break;
+                case "events": setEvents(row.value); break;
+                case "admissionsApplications": setAdmissionsApplications(row.value); break;
+                case "orphanBeneficiaries": setOrphanBeneficiaries(row.value); break;
+                case "announcements": setAnnouncements(row.value); break;
+                case "donationDetails": setDonationDetails(row.value); break;
+                case "contactInfo": setContactInfo(row.value); break;
+                case "settings": setSettings(row.value); break;
+              }
+            });
+          }
+        } catch (e) {
+          console.warn("Unhandled exception loading data from Supabase:", e);
+        } finally {
+          setIsLoaded(true);
         }
-      } catch (e) {
-        console.warn("Unhandled exception loading data from Supabase:", e);
-      } finally {
+      } else {
         setIsLoaded(true);
       }
     }
@@ -226,17 +230,19 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
       console.error("Error writing to localStorage:", e);
     }
 
-    try {
-      const { error } = await supabase.from("site_content").upsert({
-        key,
-        value,
-        updated_at: new Date().toISOString()
-      });
-      if (error) {
-        console.error(`Supabase save error for key "${key}":`, error);
+    if (isSupabaseConfigured) {
+      try {
+        const { error } = await supabase.from("site_content").upsert({
+          key,
+          value,
+          updated_at: new Date().toISOString()
+        });
+        if (error) {
+          console.error(`Supabase save error for key "${key}":`, error);
+        }
+      } catch (e) {
+        console.error(`Exception during Supabase upsert for "${key}":`, e);
       }
-    } catch (e) {
-      console.error(`Exception during Supabase upsert for "${key}":`, e);
     }
   };
 
