@@ -499,7 +499,7 @@ export default function AdminPage() {
           <div className="absolute inset-1.5 border border-accent/15 rounded-2xl pointer-events-none" />
           
           <div className="space-y-2">
-            <h1 className="font-noto-kufi text-3xl font-bold text-accent tracking-wide">
+            <h1 className="font-cairo text-3xl font-bold text-accent tracking-wide">
               بدر الهدى
             </h1>
             <p className="font-tajawal text-xs uppercase tracking-widest text-textColor-muted">
@@ -555,7 +555,7 @@ export default function AdminPage() {
           {/* Logo Brand Header */}
           <div className="p-6 border-b border-slate-800 flex items-center justify-between">
             <div className="text-start">
-              <span className="font-noto-kufi text-xl font-bold text-accent block">بدر الهدى</span>
+              <span className="font-cairo text-xl font-bold text-accent block">بدر الهدى</span>
               <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase block mt-0.5">Admin Console</span>
             </div>
             <div className="p-1 rounded bg-slate-900 border border-slate-800">

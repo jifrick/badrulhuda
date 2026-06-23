@@ -63,7 +63,7 @@ export default function Navbar() {
             />
             <div className="flex flex-col">
               <span 
-                className="font-noto-kufi text-[18px] font-bold leading-none text-textColor-primary block mt-0.5"
+                className="font-cairo text-[18px] font-bold leading-none text-textColor-primary block mt-0.5"
                 style={{ wordSpacing: "-0.05em" }}
               >
                 بدر الهدى
@@ -143,7 +143,7 @@ export default function Navbar() {
             </nav>
             <div className="flex flex-col items-center text-center gap-3 mt-auto">
               <span 
-                className="font-noto-kufi text-accent text-3xl font-bold block"
+                className="font-cairo text-accent text-3xl font-bold block"
                 style={{ wordSpacing: "-0.05em" }}
               >
                 بدر الهدى
