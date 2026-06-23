@@ -121,7 +121,7 @@ export default function FounderSection() {
   return (
     <section
       id="founder"
-      className="relative pt-6 pb-12 md:pt-8 md:pb-16 px-6 md:px-12 overflow-hidden bg-surface-alt transition-colors duration-300"
+      className="relative flex items-center min-h-screen py-6 px-6 md:px-12 overflow-hidden bg-surface-alt transition-colors duration-300"
     >
       {/* Dynamic custom thin scrollbar injected for the founder scrollable container */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -156,7 +156,7 @@ export default function FounderSection() {
         </span>
       </div>
 
-      <div className="max-w-6xl mx-auto z-10 relative">
+      <div className="max-w-6xl mx-auto z-10 relative w-full">
         {/* Subtle unified backing board to visually tie the elements together as a single component */}
         <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-br from-accent/5 via-transparent to-accent/5 rounded-3xl opacity-30 dark:opacity-15 blur-sm pointer-events-none border border-accent/5 hidden lg:block" />
 
@@ -218,8 +218,8 @@ export default function FounderSection() {
             viewport={{ once: true, margin: "-100px" }}
             className="lg:col-span-7 flex flex-col justify-start w-full z-10"
           >
-            {/* Premium Founder's Message Card with optimized height and padding for institutional presence */}
-            <div className="relative w-full h-[580px] lg:h-[535px] p-6 md:p-9 lg:p-10 rounded-2xl bg-white dark:bg-surface border border-accent/15 shadow-xl dark:shadow-black/45 overflow-hidden flex flex-col hover:border-accent/35 hover:shadow-2xl hover:shadow-accent/5 transition-all duration-500">
+            {/* Premium Founder's Message Card with viewport-aware height so it fits the screen */}
+            <div className="relative w-full h-[calc(100vh-220px)] max-h-[600px] min-h-[420px] p-6 md:p-9 lg:p-10 rounded-2xl bg-white dark:bg-surface border border-accent/15 shadow-xl dark:shadow-black/45 overflow-hidden flex flex-col hover:border-accent/35 hover:shadow-2xl hover:shadow-accent/5 transition-all duration-500">
               
               {/* Elegant internal hairline frame for depth, matching the portrait card */}
               <div className="absolute inset-2.5 border border-accent/10 rounded-xl pointer-events-none z-10" />
