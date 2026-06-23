@@ -33,14 +33,14 @@ export default function CampusHighlights() {
           {/* Conference Hall (7 columns on desktop) */}
           <m.div
             variants={fadeInUp}
-            className="lg:col-span-7 relative flex flex-col justify-between overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group min-h-[300px] sm:min-h-[380px] md:min-h-[480px]"
+            className="lg:col-span-7 relative flex flex-col justify-between overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group min-h-[400px] md:min-h-[480px]"
           >
             <div className="absolute inset-0 w-full h-full overflow-hidden bg-surface-alt/30">
               <Image
                 src="/images/facilities/bdrhall.webp"
                 alt="Conference Hall"
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 50vw"
+                sizes="(max-w-768px) 100vw, (max-w-1200px) 60vw, 50vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 priority
               />
@@ -69,14 +69,14 @@ export default function CampusHighlights() {
             {/* Central Mosque */}
             <m.div
               variants={fadeInUp}
-              className="relative flex flex-col justify-between overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group h-[220px] sm:h-[240px] md:h-[224px]"
+              className="relative flex flex-col justify-between overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group h-[220px] md:h-[224px]"
             >
               <div className="absolute inset-0 w-full h-full overflow-hidden bg-surface-alt/30">
                 <Image
                   src="/images/facilities/bdrmosque.webp"
                   alt="Central Mosque"
                   fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
+                  sizes="(max-w-768px) 100vw, 40vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
@@ -100,14 +100,14 @@ export default function CampusHighlights() {
             {/* Residential Hostel */}
             <m.div
               variants={fadeInUp}
-              className="relative flex flex-col justify-between overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group h-[220px] sm:h-[240px] md:h-[224px]"
+              className="relative flex flex-col justify-between overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 group h-[220px] md:h-[224px]"
             >
               <div className="absolute inset-0 w-full h-full overflow-hidden bg-surface-alt/30">
                 <Image
                   src="/images/facilities/bdrhstl.webp"
                   alt="Residential Hostel"
                   fill
-                  sizes="(max-width: 768px) 100vw, 40vw"
+                  sizes="(max-w-768px) 100vw, 40vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />

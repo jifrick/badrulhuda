@@ -20,19 +20,19 @@ export default function FacilitiesSection() {
           subtitle="Explore the state-of-the-art facilities designed to foster academic diligence, spiritual serenity, and student growth."
         />
 
-        {/* Scrollable Container on Mobile, Grid on Tablet/Desktop */}
+        {/* Vertical grid on mobile, 2-col on tablet, 3-col on desktop */}
         <m.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="flex overflow-x-auto pb-4 gap-6 snap-x-mandatory scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible md:pb-0"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8"
         >
           {FACILITIES.map((facility, index) => (
             <m.div
               key={index}
               variants={fadeInUp}
-              className="min-w-[285px] sm:min-w-[320px] md:min-w-0 flex-shrink-0 snap-start relative overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between"
+              className="relative overflow-hidden bg-surface-alt border border-border rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between"
             >
               {/* Large Facility Image (16:10 aspect ratio) */}
               <div className="relative w-full aspect-[16/10] overflow-hidden bg-surface-alt/50 border-b border-border/50">
@@ -40,7 +40,7 @@ export default function FacilitiesSection() {
                   src={facility.image}
                   alt={facility.title}
                   fill
-                  sizes="(max-w-768px) 100vw, (max-w-1200px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
@@ -62,11 +62,6 @@ export default function FacilitiesSection() {
             </m.div>
           ))}
         </m.div>
-
-        {/* Mobile Swipe Cue */}
-        <p className="text-center text-[11px] text-textColor-muted mt-4 md:hidden font-inter animate-pulse">
-          ← Swipe left/right to view all facilities →
-        </p>
       </div>
     </section>
   );
