@@ -87,7 +87,7 @@ export default function HeroSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 text-accent font-medium"
           >
-            <span className="font-cairo text-[15px] font-bold leading-none mt-0.5" style={{ wordSpacing: "-0.05em" }}>بدر الهدى</span>
+            <span className="font-tajawal text-[15px] font-bold leading-none mt-0.5" style={{ wordSpacing: "-0.05em" }}>بدر الهدى</span>
             <span className="text-[3px] fill-current text-accent">•</span>
             <span className="text-[10px] font-bold tracking-widest uppercase font-inter leading-none">
               Badrulhuda

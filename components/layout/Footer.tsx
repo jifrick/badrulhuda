@@ -29,7 +29,7 @@ export default function Footer() {
               />
               <div className="flex flex-col">
                 <span 
-                  className="font-cairo text-[17px] font-bold leading-none text-white block mt-0.5"
+                  className="font-tajawal text-[17px] font-bold leading-none text-white block mt-0.5"
                   style={{ wordSpacing: "-0.05em" }}
                 >
                   بدر الهدى
