@@ -5,6 +5,7 @@ import { SiteDataProvider } from "@/lib/context/SiteDataContext";
 import MotionProvider from "@/components/providers/MotionProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import AnnouncementModal from "@/components/ui/AnnouncementModal";
 import { siteMetadata } from "@/lib/metadata";
 
 // Load typography system faces from Google Fonts
@@ -108,6 +109,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <AnnouncementModal />
           </MotionProvider>
         </SiteDataProvider>
       </body>
