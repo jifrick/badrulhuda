@@ -3,10 +3,16 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Facebook, Twitter, Instagram, Youtube, Phone, Mail, MapPin } from "lucide-react";
 import { NAV_LINKS, CONTACT_INFO } from "@/lib/constants";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
   return (
     <footer className="bg-primary-dark text-white border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-16">
