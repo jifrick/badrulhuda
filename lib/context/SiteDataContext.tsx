@@ -384,7 +384,7 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
         resetAllToDefault,
       }}
     >
-      {isLoaded && children}
+      {children}
     </SiteDataContext.Provider>
   );
 }
