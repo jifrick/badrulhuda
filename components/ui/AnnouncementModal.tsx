@@ -14,9 +14,11 @@ export default function AnnouncementModal() {
 
   useEffect(() => {
     if (announcements && announcements.length > 0) {
-      // Find the latest active announcement
-      const activeAnnouncements = announcements.filter((a) => a.active);
-      const latest = activeAnnouncements[activeAnnouncements.length - 1];
+      // Find the latest active announcement sorted by date descending
+      const activeAnnouncements = announcements
+        .filter((a) => a.active)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      const latest = activeAnnouncements[0];
 
       if (latest) {
         const dismissed = localStorage.getItem(`dismissed_announcement_${latest.id}`);
