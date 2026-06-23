@@ -21,29 +21,23 @@ export default function EventsSection() {
           subtitle="Join us for our upcoming academic seminars, community outreach activities, and spiritual events in Wayanad."
         />
 
-        {/* Responsive horizontal scroll container on mobile, standard grid on desktop */}
+        {/* Vertical grid on mobile, 2-col on tablet, 3-col on desktop */}
         <m.div
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="flex overflow-x-auto pb-4 gap-6 snap-x-mandatory scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-visible md:pb-0 mt-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
         >
           {events.map((event) => (
             <m.div 
               key={event.id} 
               variants={fadeInUp}
-              className="min-w-[290px] sm:min-w-[340px] md:min-w-0 flex-shrink-0 snap-start"
             >
               <EventCard event={event} />
             </m.div>
           ))}
         </m.div>
-
-        {/* Mobile Swipe Indicators */}
-        <p className="text-center text-[11px] text-textColor-muted mt-4 md:hidden font-inter animate-pulse">
-          ← Swipe left/right to view more events →
-        </p>
       </div>
     </section>
   );
