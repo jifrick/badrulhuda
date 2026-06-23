@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { PROGRAMS, EVENTS, CONTACT_INFO, Program, EventItem } from "@/lib/constants";
 import { GALLERY_CONFIG, GallerySectionConfig, GalleryImage } from "@/lib/gallery-config";
+import { supabase } from "@/lib/supabase";
 
 // --- INTERFACES ---
 
@@ -160,12 +161,17 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
   const [contactInfo, setContactInfo] = useState<typeof CONTACT_INFO>(CONTACT_INFO);
   const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
 
-  // Load from localStorage on client mount
+  // Load from Supabase (with localStorage/constants fallback for resiliency)
   useEffect(() => {
-    try {
+    async function loadData() {
+      // First populate with local storage / defaults immediately (fast response)
       const getStored = (key: string, fallback: any) => {
-        const item = localStorage.getItem(`bdr_cms_${key}`);
-        return item ? JSON.parse(item) : fallback;
+        try {
+          const item = typeof window !== "undefined" ? localStorage.getItem(`bdr_cms_${key}`) : null;
+          return item ? JSON.parse(item) : fallback;
+        } catch (e) {
+          return fallback;
+        }
       };
 
       setHomepageHero(getStored("homepageHero", defaultHomepageHero));
@@ -178,19 +184,59 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
       setDonationDetails(getStored("donationDetails", defaultDonationDetails));
       setContactInfo(getStored("contactInfo", CONTACT_INFO));
       setSettings(getStored("settings", defaultSettings));
-    } catch (e) {
-      console.error("Error reading localStorage:", e);
-    } finally {
-      setIsLoaded(true);
+
+      // Then query Supabase to overwrite with latest server-side database truth
+      try {
+        const { data, error } = await supabase.from("site_content").select("*");
+        if (error) {
+          console.warn("Supabase content table not accessible. Falling back to local data. Setup SQL tables if this is a fresh setup.", error);
+        } else if (data && data.length > 0) {
+          data.forEach((row) => {
+            switch (row.key) {
+              case "homepageHero": setHomepageHero(row.value); break;
+              case "programs": setPrograms(row.value); break;
+              case "galleryConfig": setGalleryConfig(row.value); break;
+              case "events": setEvents(row.value); break;
+              case "admissionsApplications": setAdmissionsApplications(row.value); break;
+              case "orphanBeneficiaries": setOrphanBeneficiaries(row.value); break;
+              case "announcements": setAnnouncements(row.value); break;
+              case "donationDetails": setDonationDetails(row.value); break;
+              case "contactInfo": setContactInfo(row.value); break;
+              case "settings": setSettings(row.value); break;
+            }
+          });
+        }
+      } catch (e) {
+        console.warn("Unhandled exception loading data from Supabase:", e);
+      } finally {
+        setIsLoaded(true);
+      }
     }
+
+    loadData();
   }, []);
 
-  // Save setters helper
-  const saveItem = (key: string, value: any) => {
+  // Save to both Supabase database and browser localStorage for resilience
+  const saveItem = async (key: string, value: any) => {
     try {
-      localStorage.setItem(`bdr_cms_${key}`, JSON.stringify(value));
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`bdr_cms_${key}`, JSON.stringify(value));
+      }
     } catch (e) {
       console.error("Error writing to localStorage:", e);
+    }
+
+    try {
+      const { error } = await supabase.from("site_content").upsert({
+        key,
+        value,
+        updated_at: new Date().toISOString()
+      });
+      if (error) {
+        console.error(`Supabase save error for key "${key}":`, error);
+      }
+    } catch (e) {
+      console.error(`Exception during Supabase upsert for "${key}":`, e);
     }
   };
 
@@ -265,7 +311,7 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
     saveItem("settings", newSettings);
   };
 
-  const resetAllToDefault = () => {
+  const resetAllToDefault = async () => {
     if (confirm("Are you sure you want to reset all content modifications back to their factory defaults?")) {
       try {
         localStorage.removeItem("bdr_cms_homepageHero");
@@ -290,9 +336,21 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
         setContactInfo(CONTACT_INFO);
         setSettings(defaultSettings);
         
-        alert("Reset successful. Content restored.");
+        // Save default overrides back to database
+        await saveItem("homepageHero", defaultHomepageHero);
+        await saveItem("programs", PROGRAMS);
+        await saveItem("galleryConfig", GALLERY_CONFIG);
+        await saveItem("events", EVENTS);
+        await saveItem("admissionsApplications", []);
+        await saveItem("orphanBeneficiaries", defaultOrphanBeneficiaries);
+        await saveItem("announcements", defaultAnnouncements);
+        await saveItem("donationDetails", defaultDonationDetails);
+        await saveItem("contactInfo", CONTACT_INFO);
+        await saveItem("settings", defaultSettings);
+        
+        alert("Reset successful. Content restored both locally and in database.");
       } catch (e) {
-        console.error(e);
+        console.error("Error resetting defaults:", e);
       }
     }
   };
