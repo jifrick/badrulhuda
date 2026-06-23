@@ -83,7 +83,15 @@ const founderMessages = {
 export default function FounderSection() {
   const [currentLang, setCurrentLang] = useState<LanguageKey>("en");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -99,22 +107,24 @@ export default function FounderSection() {
 
   const currentMsg = founderMessages[currentLang];
 
-  // Animation variants with 0.8s duration
+  // Animation variants with 0.8s duration on desktop, 0.5s vertical fade-in on mobile
   const photoVariants = {
-    hidden: { opacity: 0, x: -30 },
+    hidden: { opacity: 0, x: isMobile ? 0 : -30, y: isMobile ? 20 : 0 },
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+      y: 0,
+      transition: { duration: isMobile ? 0.5 : 0.8, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   const contentVariants = {
-    hidden: { opacity: 0, x: 30 },
+    hidden: { opacity: 0, x: isMobile ? 0 : 30, y: isMobile ? 20 : 0 },
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+      y: 0,
+      transition: { duration: isMobile ? 0.5 : 0.8, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
@@ -144,7 +154,8 @@ export default function FounderSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none z-0" />
 
       {/* 4% opacity soft gold Islamic tessellation background pattern (Reduced visual noise) */}
-      <IslamicPattern opacity={0.04} className="z-0 animate-pattern-float text-accent/20" />
+      <IslamicPattern opacity={0.04} className="z-0 animate-pattern-float text-accent/20 hidden lg:block" />
+      <IslamicPattern opacity={0.04} className="z-0 text-accent/20 block lg:hidden" />
 
       {/* Large faint Arabic Calligraphy Watermark behind content */}
       <div
