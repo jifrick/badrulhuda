@@ -37,7 +37,7 @@ export default function CampusHighlights() {
           >
             <div className="absolute inset-0 w-full h-full overflow-hidden bg-surface-alt/30">
               <Image
-                src="/images/facilities/bdrhall.png"
+                src="/images/facilities/bdrhall.webp"
                 alt="Conference Hall"
                 fill
                 sizes="(max-w-768px) 100vw, (max-w-1200px) 60vw, 50vw"
@@ -73,7 +73,7 @@ export default function CampusHighlights() {
             >
               <div className="absolute inset-0 w-full h-full overflow-hidden bg-surface-alt/30">
                 <Image
-                  src="/images/facilities/bdrmosque.png"
+                  src="/images/facilities/bdrmosque.webp"
                   alt="Central Mosque"
                   fill
                   sizes="(max-w-768px) 100vw, 40vw"
@@ -104,7 +104,7 @@ export default function CampusHighlights() {
             >
               <div className="absolute inset-0 w-full h-full overflow-hidden bg-surface-alt/30">
                 <Image
-                  src="/images/facilities/bdrhstl.png"
+                  src="/images/facilities/bdrhstl.webp"
                   alt="Residential Hostel"
                   fill
                   sizes="(max-w-768px) 100vw, 40vw"

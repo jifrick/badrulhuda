@@ -125,32 +125,32 @@ export const FACILITIES: Facility[] = [
   {
     title: "Residential Hostel",
     description: "A nurturing and disciplined boarding environment designed to foster brotherhood, study routines, and spiritual character.",
-    image: "/images/facilities/bdrhstl.png",
+    image: "/images/facilities/bdrhstl.webp",
   },
   {
     title: "Library & Research Centre",
     description: "Housing classical Islamic manuscripts, reference works, and digital archives for deep academic research.",
-    image: "/images/facilities/library.png",
+    image: "/images/facilities/library.webp",
   },
   {
     title: "Central Mosque",
     description: "The spiritual heart of our campus hosting daily congregational prayers, spiritual retreats, and halaqas.",
-    image: "/images/facilities/bdrmosque.png",
+    image: "/images/facilities/bdrmosque.webp",
   },
   {
     title: "Smart Classrooms",
     description: "Technologically integrated spaces equipped with smart boards, high-speed connectivity, and modern teaching aids.",
-    image: "/images/facilities/classrooms.png",
+    image: "/images/facilities/classrooms.webp",
   },
   {
     title: "Conference Hall",
     description: "A premier facility hosting scholarly seminars, guest lectures, student leadership summits, and workshops.",
-    image: "/images/facilities/bdrhall.png",
+    image: "/images/facilities/bdrhall.webp",
   },
   {
     title: "Creative Corner",
     description: "A dedicated hub for student collaboration, project planning, public speaking prep, and innovative ideas.",
-    image: "/images/facilities/creative.png",
+    image: "/images/facilities/creative.webp",
   },
 ];
 
