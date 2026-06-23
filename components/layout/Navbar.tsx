@@ -4,9 +4,32 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { 
+  Menu, 
+  X,
+  Home,
+  Info,
+  BookOpen,
+  Building2,
+  Image as ImageIcon,
+  GraduationCap,
+  Calendar,
+  Heart,
+  Phone
+} from "lucide-react";
 import { AnimatePresence, m } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
+const linkIcons: Record<string, React.ComponentType<any>> = {
+  "/": Home,
+  "/about": Info,
+  "/programs": BookOpen,
+  "/facilities": Building2,
+  "/gallery": ImageIcon,
+  "/admissions": GraduationCap,
+  "/events": Calendar,
+  "/charity": Heart,
+  "/contact": Phone,
+};
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -117,42 +140,119 @@ export default function Navbar() {
       {/* Mobile Menu Slide Overlay */}
       <AnimatePresence>
         {isOpen && (
-          <m.div
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-surface/98 backdrop-blur-lg lg:hidden pt-24 pb-8 px-6 flex flex-col justify-between"
-          >
-            <nav className="flex flex-col gap-5 items-center text-center mt-6">
-              {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={handleLinkClick}
-                    className={`text-display-md font-amiri font-bold ${
-                      isActive ? "text-primary dark:text-accent" : "text-textColor-secondary"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </nav>
-            <div className="flex flex-col items-center text-center gap-3 mt-auto">
-              <span 
-                className="font-tajawal text-accent text-3xl font-bold block"
-                style={{ wordSpacing: "-0.05em" }}
-              >
-                بدر الهدى
-              </span>
-              <p className="text-caption text-textColor-muted max-w-[250px] leading-relaxed">
-                Panamaram, Wayanad, Kerala, India — PIN 670721
-              </p>
-            </div>
-          </m.div>
+          <>
+            {/* Tap-to-close Backdrop */}
+            <m.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={handleLinkClick}
+              className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+            />
+
+            {/* Sliding Drawer Container */}
+            <m.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="fixed inset-y-0 right-0 w-[85vw] max-w-[360px] z-50 bg-surface shadow-2xl flex flex-col lg:hidden border-l border-border/50"
+            >
+              {/* Top: Logo + Arabic Name + Close Button */}
+              <div className="flex items-center justify-between p-5 border-b border-border/50 bg-surface-alt/30">
+                <div className="flex items-center gap-2.5">
+                  <Image
+                    src="/images/badr-logo.webp"
+                    alt="Badrulhuda Academy Logo"
+                    width={38}
+                    height={38}
+                    className="w-9 h-9 object-contain"
+                  />
+                  <div className="flex flex-col">
+                    <span 
+                      className="font-tajawal text-[18px] font-bold leading-none text-textColor-primary mt-0.5"
+                      style={{ wordSpacing: "-0.05em" }}
+                    >
+                      بدر الهدى
+                    </span>
+                    <span className="text-[8px] font-bold tracking-widest text-textColor-muted uppercase mt-0.5">
+                      Badrulhuda Academy
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1.5 rounded-lg border border-border/60 bg-surface hover:bg-surface-alt transition-colors text-textColor-secondary active:scale-95"
+                  aria-label="Close menu"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Tagline Banner */}
+              <div className="px-5 py-2.5 bg-primary/5 dark:bg-accent/5 border-b border-border/40 text-center">
+                <p className="text-[10px] font-bold tracking-wide text-primary dark:text-accent-light uppercase">
+                  Rooted in Faith. Rising Through Knowledge.
+                </p>
+              </div>
+
+              {/* Middle: Grid of Rounded Cards */}
+              <div className="flex-1 overflow-y-auto p-5">
+                <div className="grid grid-cols-3 gap-3">
+                  {NAV_LINKS.map((link) => {
+                    const isActive = pathname === link.href;
+                    const IconComponent = linkIcons[link.href] || Info;
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={handleLinkClick}
+                        className={`flex flex-col items-center justify-center p-3.5 rounded-xl border transition-all duration-200 active:scale-95 text-center ${
+                          isActive
+                            ? "bg-primary/10 dark:bg-accent/15 border-primary/30 dark:border-accent/40 text-primary dark:text-accent"
+                            : "bg-surface-alt/70 dark:bg-surface-alt/45 border-border/50 hover:bg-surface-alt dark:hover:bg-surface-alt/70 text-textColor-secondary"
+                        }`}
+                      >
+                        <div className={`p-2 rounded-lg mb-2 transition-colors ${
+                          isActive 
+                            ? "bg-primary/20 dark:bg-accent/20 text-primary dark:text-accent" 
+                            : "bg-white dark:bg-surface border border-border/40 text-textColor-muted"
+                        }`}>
+                          <IconComponent className="w-4.5 h-4.5" />
+                        </div>
+                        <span className={`text-[10.5px] tracking-wide leading-tight ${
+                          isActive ? "font-bold" : "font-semibold"
+                        }`}>
+                          {link.label}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Bottom: Donate Now & Admissions Open Buttons */}
+              <div className="p-5 border-t border-border/50 bg-surface-alt/30 flex flex-col gap-2.5">
+                <Link
+                  href="/charity"
+                  onClick={handleLinkClick}
+                  className="w-full bg-accent hover:bg-accent-light text-primary-dark font-bold py-2.5 px-4 rounded-lg transition-all duration-200 text-center text-body-sm shadow-sm active:scale-[0.98] flex items-center justify-center gap-2"
+                >
+                  <Heart className="w-4 h-4 fill-current animate-pulse" />
+                  Donate Now
+                </Link>
+                <Link
+                  href="/admissions"
+                  onClick={handleLinkClick}
+                  className="w-full bg-primary hover:bg-primary-light text-white font-bold py-2.5 px-4 rounded-lg transition-all duration-200 text-center text-body-sm shadow-sm active:scale-[0.98] border border-transparent dark:border-white/10 flex items-center justify-center gap-2"
+                >
+                  <GraduationCap className="w-4 h-4" />
+                  Admissions Open
+                </Link>
+              </div>
+            </m.div>
+          </>
         )}
       </AnimatePresence>
     </>

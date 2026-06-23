@@ -15,10 +15,10 @@ export default function Footer() {
   }
   return (
     <footer className="bg-primary-dark text-white border-t border-white/10">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-6 py-10 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Column 1: Brand & Mission */}
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             <div className="flex items-center gap-3">
               <Image
                 src="/images/badr-logo.webp"
@@ -39,13 +39,13 @@ export default function Footer() {
                 </span>
               </div>
             </div>
-            <p className="text-body-sm text-white/70 leading-relaxed font-inter max-w-[280px]">
+            <p className="text-body-sm text-white/70 leading-relaxed font-inter max-w-[280px] hidden sm:block">
               Dedicated to reviving authentic Islamic scholarship and character, nurturing guidance and knowledge for the community of Wayanad, Kerala, and beyond.
             </p>
           </div>
 
           {/* Column 2: Quick Links */}
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             <h4 className="font-amiri text-body-lg font-bold text-accent tracking-wide">
               Quick Links
             </h4>
@@ -64,7 +64,7 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Contact Summary */}
-          <div className="space-y-4 font-inter text-body-sm text-white/70">
+          <div className="space-y-3 md:space-y-4 font-inter text-body-sm text-white/70">
             <h4 className="font-amiri text-body-lg font-bold text-accent tracking-wide">
               Contact Us
             </h4>
@@ -112,11 +112,11 @@ export default function Footer() {
           </div>
 
           {/* Column 4: Support & Social */}
-          <div className="space-y-4 font-inter">
+          <div className="space-y-3 md:space-y-4 font-inter">
             <h4 className="font-amiri text-body-lg font-bold text-accent tracking-wide">
               Support Our Mission
             </h4>
-            <p className="text-body-sm text-white/70 leading-relaxed">
+            <p className="text-body-sm text-white/70 leading-relaxed hidden sm:block">
               Join us in illuminating minds. Your Sadaqah supports scholarships, Quran studies, and campus expansion.
             </p>
             <div className="pt-2">
@@ -147,7 +147,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright line */}
-        <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-[11px] text-white/50 gap-4 font-inter text-center md:text-left">
+        <div className="border-t border-white/10 mt-8 md:mt-12 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center text-[11px] text-white/50 gap-4 font-inter text-center md:text-left">
           <span>
             © {new Date().getFullYear()} Badrulhuda Academy Panamaram. All Rights Reserved.
           </span>
