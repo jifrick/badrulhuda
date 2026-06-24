@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { m, useScroll, useTransform } from "framer-motion";
 import { useSiteData } from "@/lib/context/SiteDataContext";
-import IslamicPattern from "../ui/IslamicPattern";
 
 export default function HeroSection() {
   const { homepageHero } = useSiteData();
@@ -68,9 +67,19 @@ export default function HeroSection() {
       id="home"
       className="relative min-h-svh w-full flex items-center justify-center overflow-hidden bg-surface-alt pt-20 px-6"
     >
-      {/* 8% opacity Islamic tessellation background pattern */}
+      {/* Compressed video background with muted loop autoplay and slow parallax */}
       <m.div style={{ y: yBg }} className="absolute inset-0 pointer-events-none z-0">
-        <IslamicPattern opacity={0.08} className="animate-pattern-float" />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-25 dark:opacity-15 transition-opacity duration-1000"
+        >
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Subtle overlay to ensure high readability of text content */}
+        <div className="absolute inset-0 bg-gradient-to-b from-surface-alt/70 via-surface-alt/60 to-surface-alt/90 dark:from-surface/75 dark:via-surface/70 dark:to-surface" />
       </m.div>
  
       {/* Centered Hero content */}
