@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, m } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
+import IslamicPattern from "../ui/IslamicPattern";
 const linkIcons: Record<string, React.ComponentType<any>> = {
   "/": Home,
   "/about": Info,
@@ -168,10 +169,13 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed inset-y-0 right-0 w-[85vw] max-w-[360px] z-50 bg-surface shadow-2xl flex flex-col lg:hidden border-l border-border/50"
+              className="fixed inset-y-0 right-0 w-[85vw] max-w-[360px] z-50 bg-surface shadow-2xl flex flex-col lg:hidden border-l border-border/50 overflow-hidden"
             >
+              {/* Subtle background Islamic Pattern */}
+              <IslamicPattern opacity={0.06} className="z-0 text-accent/20" />
+
               {/* Top: Logo + Arabic Name + Close Button */}
-              <div className="flex items-center justify-between p-5 border-b border-border/50 bg-surface-alt/30">
+              <div className="flex items-center justify-between p-5 border-b border-border/50 bg-surface-alt/30 relative z-10">
                 <div className="flex items-center gap-2.5">
                   <Image
                     src="/images/badr-logo.webp"
@@ -202,14 +206,14 @@ export default function Navbar() {
               </div>
 
               {/* Tagline Banner */}
-              <div className="px-5 py-2.5 bg-primary/5 dark:bg-accent/5 border-b border-border/40 text-center">
+              <div className="px-5 py-2.5 bg-primary/5 dark:bg-accent/5 border-b border-border/40 text-center relative z-10">
                 <p className="text-[10px] font-bold tracking-wide text-primary dark:text-accent-light uppercase">
                   Rooted in Faith. Rising Through Knowledge.
                 </p>
               </div>
 
               {/* Middle: Grid of Rounded Cards */}
-              <div className="flex-1 overflow-y-auto p-5">
+              <div className="flex-1 overflow-y-auto p-5 relative z-10">
                 <div className="grid grid-cols-3 gap-3">
                   {NAV_LINKS.map((link) => {
                     const isActive = pathname === link.href;
@@ -244,7 +248,7 @@ export default function Navbar() {
               </div>
 
               {/* Bottom: Donate Now & Admissions Open Buttons */}
-              <div className="p-5 border-t border-border/50 bg-surface-alt/30 flex flex-col gap-2.5">
+              <div className="p-5 border-t border-border/50 bg-surface-alt/30 flex flex-col gap-2.5 relative z-10">
                 <Link
                   href="/charity"
                   onClick={handleLinkClick}
