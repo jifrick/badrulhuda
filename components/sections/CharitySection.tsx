@@ -6,30 +6,10 @@ import { m } from "framer-motion";
 import DonationCard from "../ui/DonationCard";
 import CopyButton from "../ui/CopyButton";
 import IslamicPattern from "../ui/IslamicPattern";
-
-const getPaymentLink = () => {
-  const upiId = "badrulhuda@sbi";
-  const name = "Badrulhuda Academy";
-  const note = "Donation to Badrulhuda";
-  
-  const baseUpi = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&cu=INR&tn=${encodeURIComponent(note)}`;
-  
-  if (typeof window === "undefined") return baseUpi;
-  
-  const userAgent = window.navigator.userAgent.toLowerCase();
-  const isAndroid = /android/.test(userAgent);
-  const isIOS = /iphone|ipad|ipod/.test(userAgent);
-  
-  if (isAndroid) {
-    return `intent://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&cu=INR&tn=${encodeURIComponent(note)}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;S.browser_fallback_url=${encodeURIComponent(baseUpi)};end`;
-  } else if (isIOS) {
-    return `gpay://upi/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&cu=INR&tn=${encodeURIComponent(note)}`;
-  }
-  
-  return baseUpi;
-};
+import DonationModal from "../ui/DonationModal";
 
 export default function CharitySection() {
+  const [isDonateModalOpen, setIsDonateModalOpen] = React.useState(false);
   return (
     <section id="charity" className="relative py-28 px-6 md:px-8 overflow-hidden bg-surface-alt border-t border-b border-border/40 dark:border-border/10">
       {/* Subtle Islamic geometric pattern background */}
@@ -61,7 +41,7 @@ export default function CharitySection() {
             transition={{ duration: 0.6 }}
             className="flex flex-col justify-center"
           >
-            <DonationCard />
+            <DonationCard onDonateClick={() => setIsDonateModalOpen(true)} />
           </m.div>
 
           {/* Right Column: QR Donation Card */}
@@ -122,8 +102,8 @@ export default function CharitySection() {
 
                 {/* Pay with GPay / UPI Button */}
                 <div className="mt-1 flex flex-col items-center gap-1.5 w-full">
-                  <a
-                    href={getPaymentLink()}
+                  <button
+                    onClick={() => setIsDonateModalOpen(true)}
                     className="w-full max-w-[210px] inline-flex items-center justify-center gap-2 bg-[#1A1A1A] hover:bg-black text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all duration-300 active:scale-95 text-xs font-inter uppercase tracking-wider border border-neutral-800"
                   >
                     <svg className="w-4 h-4 bg-white rounded-full p-0.5 shrink-0" viewBox="0 0 24 24">
@@ -145,7 +125,7 @@ export default function CharitySection() {
                       />
                     </svg>
                     <span>Pay with GPay / UPI</span>
-                  </a>
+                  </button>
                 </div>
               </div>
 
@@ -159,6 +139,7 @@ export default function CharitySection() {
 
         </div>
       </div>
+      <DonationModal isOpen={isDonateModalOpen} onClose={() => setIsDonateModalOpen(false)} />
     </section>
   );
 }

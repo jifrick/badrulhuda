@@ -2,29 +2,11 @@ import React from "react";
 import CopyButton from "./CopyButton";
 import { Info } from "lucide-react";
 
-const getPaymentLink = () => {
-  const upiId = "badrulhuda@sbi";
-  const name = "Badrulhuda Academy";
-  const note = "Donation to Badrulhuda";
-  
-  const baseUpi = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&cu=INR&tn=${encodeURIComponent(note)}`;
-  
-  if (typeof window === "undefined") return baseUpi;
-  
-  const userAgent = window.navigator.userAgent.toLowerCase();
-  const isAndroid = /android/.test(userAgent);
-  const isIOS = /iphone|ipad|ipod/.test(userAgent);
-  
-  if (isAndroid) {
-    return `intent://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&cu=INR&tn=${encodeURIComponent(note)}#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;S.browser_fallback_url=${encodeURIComponent(baseUpi)};end`;
-  } else if (isIOS) {
-    return `gpay://upi/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&cu=INR&tn=${encodeURIComponent(note)}`;
-  }
-  
-  return baseUpi;
-};
+interface DonationCardProps {
+  onDonateClick?: () => void;
+}
 
-export default function DonationCard() {
+export default function DonationCard({ onDonateClick }: DonationCardProps) {
   const bankDetails = {
     bank: "State Bank of India",
     branch: "Kalpetta",
@@ -94,8 +76,8 @@ export default function DonationCard() {
 
       {/* Pay with GPay / UPI Button */}
       <div className="mt-6 flex flex-col items-center justify-center gap-2 z-10 relative">
-        <a
-          href={getPaymentLink()}
+        <button
+          onClick={onDonateClick}
           className="w-full max-w-[240px] inline-flex items-center justify-center gap-2.5 bg-[#1A1A1A] hover:bg-black text-white font-bold py-2.5 px-4 rounded-xl shadow-md transition-all duration-300 active:scale-95 text-xs font-inter uppercase tracking-wider border border-neutral-800"
         >
           <svg className="w-4 h-4 bg-white rounded-full p-0.5 shrink-0" viewBox="0 0 24 24">
@@ -117,7 +99,7 @@ export default function DonationCard() {
             />
           </svg>
           <span>Pay with GPay / UPI</span>
-        </a>
+        </button>
       </div>
 
       {/* Redesigned Premium Acknowledgement Box */}
