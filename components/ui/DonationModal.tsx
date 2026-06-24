@@ -15,7 +15,6 @@ const PURPOSES = [
   "Student Sponsorship",
   "General Donation",
   "Sadaqah",
-  "Zakat",
   "Building Development"
 ];
 
@@ -439,27 +438,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                     <span className="text-xs font-bold text-textColor-primary font-inter mt-2">PhonePe</span>
                   </a>
 
-                  {/* Paytm */}
-                  <a
-                    href={getPrefilledPaymentLink("paytm", activeAmountValue, selectedPurpose)}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-surface border border-neutral-200 dark:border-neutral-800 hover:border-accent hover:shadow-[0_8px_25px_rgba(212,163,89,0.1)] transition-all duration-300 active:scale-95 group text-center"
-                  >
-                    <div className="h-7 px-2 bg-[#00baf2]/10 rounded flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-                      <span className="text-[10px] font-black text-[#002970] font-sans uppercase">paytm</span>
-                    </div>
-                    <span className="text-xs font-bold text-textColor-primary font-inter mt-2">Paytm</span>
-                  </a>
 
-                  {/* BHIM UPI */}
-                  <a
-                    href={getPrefilledPaymentLink("bhim", activeAmountValue, selectedPurpose)}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-surface border border-neutral-200 dark:border-neutral-800 hover:border-accent hover:shadow-[0_8px_25px_rgba(212,163,89,0.1)] transition-all duration-300 active:scale-95 group text-center"
-                  >
-                    <div className="h-7 px-2.5 bg-neutral-50 dark:bg-stone-900 rounded flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform border border-border/10">
-                      <span className="text-[10px] font-bold tracking-wider font-mono italic text-textColor-primary">BHIM <span className="text-accent font-bold">UPI</span></span>
-                    </div>
-                    <span className="text-xs font-bold text-textColor-primary font-inter mt-2">BHIM UPI</span>
-                  </a>
 
                   {/* Bank Transfer */}
                   <button
