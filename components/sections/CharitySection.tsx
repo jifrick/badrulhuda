@@ -39,7 +39,7 @@ export default function CharitySection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="flex flex-col justify-center"
+            className="hidden md:flex flex-col justify-center"
           >
             <DonationCard onDonateClick={() => setIsDonateModalOpen(true)} />
           </m.div>
