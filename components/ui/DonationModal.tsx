@@ -64,16 +64,27 @@ const getPrefilledPaymentLink = (method: string, amount: string | number, purpos
 };
 
 const getWhatsAppLink = (amount: string | number, purpose: string) => {
-  const text = `Assalamu Alaikum,
+  const purposeMap: Record<string, string> = {
+    "Orphan Home Care": "ഓർഫൻ ഹോം കെയർ (അനാഥ സംരക്ഷണം)",
+    "Student Sponsorship": "സ്റ്റുഡന്റ് സ്പോൺസർഷിപ്പ്",
+    "General Donation": "പൊതു സംഭാവന",
+    "Sadaqah": "സദഖ",
+    "Building Development": "കെട്ടിട വികസനം"
+  };
 
-I would like to support Badrulhuda Academy through the ${purpose} Program.
+  const malayalamPurpose = purposeMap[purpose] || purpose;
 
-Donation Amount: ₹${amount}
+  const text = `അസ്സലാമു അലൈക്കും,
 
-Please guide me with the donation process.`;
+ബദ്റുൽഹുദ അക്കാദമിയുടെ ${malayalamPurpose} പദ്ധതിയിലേക്ക് സംഭാവന നൽകാൻ ഞാൻ ആഗ്രഹിക്കുന്നു.
+
+സംഭാവന തുക: ₹${amount}
+
+തുടർനടപടികൾക്കായി എന്നെ സഹായിക്കുമല്ലോ.`;
 
   return `https://wa.me/+919447783313?text=${encodeURIComponent(text)}`;
 };
+
 
 export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
   const [isMobile, setIsMobile] = useState(false);
