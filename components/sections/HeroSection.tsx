@@ -74,12 +74,12 @@ export default function HeroSection() {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-75 dark:opacity-40 transition-opacity duration-1000"
+          className="w-full h-full object-cover opacity-25 dark:opacity-15 transition-opacity duration-1000"
         >
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
         {/* Subtle overlay to ensure high readability of text content */}
-        <div className="absolute inset-0 bg-gradient-to-b from-surface-alt/35 via-surface-alt/20 to-surface-alt/45 dark:from-surface/50 dark:via-surface/35 dark:to-surface/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-surface-alt/70 via-surface-alt/60 to-surface-alt/90 dark:from-surface/75 dark:via-surface/70 dark:to-surface" />
       </m.div>
  
       {/* Centered Hero content */}
