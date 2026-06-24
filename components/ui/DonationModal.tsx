@@ -13,7 +13,6 @@ interface DonationModalProps {
 const PURPOSES = [
   "Orphan Home Care",
   "Student Sponsorship",
-  "General Donation",
   "Sadaqah",
   "Building Development"
 ];
@@ -67,7 +66,6 @@ const getWhatsAppLink = (amount: string | number, purpose: string) => {
   const purposeMap: Record<string, string> = {
     "Orphan Home Care": "ഓർഫൻ ഹോം കെയർ (അനാഥ സംരക്ഷണം)",
     "Student Sponsorship": "സ്റ്റുഡന്റ് സ്പോൺസർഷിപ്പ്",
-    "General Donation": "പൊതു സംഭാവന",
     "Sadaqah": "സദഖ",
     "Building Development": "കെട്ടിട വികസനം"
   };
