@@ -70,21 +70,46 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  const handleSupportClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === "/") {
+      e.preventDefault();
+      const element = document.getElementById("orphan-care");
+      if (element) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        className={`fixed z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-surface/90 backdrop-blur-md border-b border-border shadow-sm py-3"
-            : "bg-transparent py-5"
+            ? "top-0 left-0 w-full py-0 lg:top-3 lg:left-1/2 lg:-translate-x-1/2 lg:w-[calc(100%-2.5rem)] lg:max-w-7xl"
+            : "top-0 left-0 w-full py-0 lg:top-6 lg:left-1/2 lg:-translate-x-1/2 lg:w-[calc(100%-2rem)] lg:max-w-7xl"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <div
+          className={`mx-auto flex justify-between items-center transition-all duration-300 ${
+            scrolled
+              ? "w-full px-6 py-3 bg-surface/90 backdrop-blur-md border-b border-border shadow-sm lg:bg-surface/80 lg:dark:bg-surface/85 lg:backdrop-blur-md lg:rounded-full lg:border lg:border-border/80 lg:shadow-md lg:px-6 lg:py-2"
+              : "w-full px-6 py-5 bg-transparent lg:bg-white/70 lg:dark:bg-surface/75 lg:backdrop-blur-md lg:rounded-full lg:border lg:border-border/60 lg:shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:lg:shadow-[0_8px_32px_rgba(0,0,0,0.35)] lg:px-8 lg:py-2.5"
+          }`}
+        >
           {/* Brand Logo */}
           <Link
             href="/"
             onClick={handleLinkClick}
-            className="flex items-center gap-3 text-textColor-primary hover:opacity-90 transition-opacity group"
+            className="flex items-center gap-3 text-textColor-primary hover:opacity-90 transition-opacity group flex-shrink-0"
             aria-label="Badrulhuda Academy Home"
           >
             {/* Logo Image */}
@@ -110,7 +135,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 mx-auto">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -120,7 +145,7 @@ export default function Navbar() {
                   onClick={handleLinkClick}
                   className={`relative text-body-sm font-semibold tracking-wide py-1.5 transition-colors ${
                     isActive
-                      ? "text-primary dark:text-accent font-bold"
+                      ? "text-accent font-bold"
                       : "text-textColor-secondary hover:text-textColor-primary dark:hover:text-accent-light"
                   }`}
                 >
@@ -136,6 +161,18 @@ export default function Navbar() {
               );
             })}
           </nav>
+
+          {/* Support a Child desktop CTA button */}
+          <div className="hidden lg:block flex-shrink-0">
+            <Link
+              href="/#orphan-care"
+              onClick={handleSupportClick}
+              className="inline-flex items-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold px-5 py-2.5 rounded-full transition-all duration-300 shadow-md hover:shadow-accent/20 active:scale-95 text-body-sm font-inter shrink-0"
+            >
+              <Heart className="w-4 h-4 fill-current animate-pulse" />
+              <span>Support a Child</span>
+            </Link>
+          </div>
 
           {/* Mobile hamburger button */}
           <button
