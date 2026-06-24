@@ -79,7 +79,7 @@ export default function HeroSection() {
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
         </video>
         {/* Subtle overlay to ensure high readability of text content */}
-        <div className="absolute inset-0 bg-gradient-to-b from-surface-alt/15 via-surface-alt/5 to-surface-alt/25 dark:from-surface/30 dark:via-surface/20 dark:to-surface/45" />
+        <div className="absolute inset-0 bg-gradient-to-b from-surface-alt/35 via-surface-alt/20 to-surface-alt/45 dark:from-surface/50 dark:via-surface/35 dark:to-surface/60" />
       </m.div>
  
       {/* Centered Hero content */}
