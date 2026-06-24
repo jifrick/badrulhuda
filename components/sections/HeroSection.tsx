@@ -69,14 +69,25 @@ export default function HeroSection() {
     >
       {/* Compressed video background with muted loop autoplay and slow parallax */}
       <m.div style={{ y: yBg }} className="absolute inset-0 pointer-events-none z-0">
+        {/* Desktop Video background */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-25 dark:opacity-15 transition-opacity duration-1000"
+          className="hidden md:block w-full h-full object-cover opacity-25 dark:opacity-15 transition-opacity duration-1000"
         >
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
+        {/* Mobile Video background */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="block md:hidden w-full h-full object-cover opacity-25 dark:opacity-15 transition-opacity duration-1000"
+        >
+          <source src="/videos/hero-bg-mobile.mp4" type="video/mp4" />
         </video>
         {/* Subtle overlay to ensure high readability of text content */}
         <div className="absolute inset-0 bg-gradient-to-b from-surface-alt/70 via-surface-alt/60 to-surface-alt/90 dark:from-surface/75 dark:via-surface/70 dark:to-surface" />
