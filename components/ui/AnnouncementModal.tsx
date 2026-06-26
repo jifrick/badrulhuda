@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X, Calendar, Bell, ArrowRight } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { X, Calendar, ArrowRight } from "lucide-react";
 import { AnimatePresence, m } from "framer-motion";
 import { useSiteData } from "@/lib/context/SiteDataContext";
 
 export default function AnnouncementModal() {
   const { announcements } = useSiteData();
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] = useState<any>(null);
 
@@ -37,6 +39,8 @@ export default function AnnouncementModal() {
     }
   };
 
+  // Don't show the announcement modal on admin pages
+  if (pathname?.startsWith("/admin")) return null;
   if (!currentAnnouncement) return null;
 
   // Map category to a nice color badge
