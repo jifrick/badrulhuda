@@ -151,8 +151,11 @@ export default function Footer() {
           <span>
             © {new Date().getFullYear()} Badrulhuda Academy Panamaram. All Rights Reserved.
           </span>
-          <span className="text-accent/75 font-semibold">
-            ⚠️ Website design pending brand guidelines & management approval
+          <span className="flex items-center gap-2 opacity-80">
+            <span className="text-white/50">Designed & Developed by</span>
+            <a href="https://yawmatic.com" target="_blank" rel="noopener noreferrer">
+              <Image src="/wordmark bg removed (1).png" alt="Yawmatic" height={20} width={80} className="object-contain" />
+            </a>
           </span>
         </div>
       </div>
