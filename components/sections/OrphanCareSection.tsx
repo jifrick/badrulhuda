@@ -210,7 +210,7 @@ export default function OrphanCareSection() {
 
               <div className="p-4 bg-white/40 dark:bg-stone-950/20 border border-accent/10 rounded-2xl text-start shadow-sm">
                 <span className="block font-amiri text-2xl md:text-3xl font-extrabold text-emerald-800 dark:text-emerald-500">
-                  <AnimatedCounter target={activeCount > 0 ? activeCount : 20} suffix="+" />
+                  <AnimatedCounter target={activeCount > 20 ? activeCount : 20} suffix="+" />
                 </span>
                 <span className="block font-inter text-[11px] md:text-xs text-textColor-muted mt-1 font-medium">
                   Beneficiary Children

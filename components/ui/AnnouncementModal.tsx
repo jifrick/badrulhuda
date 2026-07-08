@@ -9,12 +9,14 @@ import { AnimatePresence, m } from "framer-motion";
 import { useSiteData } from "@/lib/context/SiteDataContext";
 
 export default function AnnouncementModal() {
-  const { announcements } = useSiteData();
+  const { announcements, isLoaded } = useSiteData();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] = useState<any>(null);
 
   useEffect(() => {
+    if (!isLoaded) return;
+
     if (announcements && announcements.length > 0) {
       // Find the latest active announcement sorted by date descending
       const activeAnnouncements = announcements
@@ -23,20 +25,18 @@ export default function AnnouncementModal() {
       const latest = activeAnnouncements[0];
 
       if (latest) {
-        const dismissed = localStorage.getItem(`dismissed_announcement_${latest.id}`);
-        if (!dismissed) {
-          setCurrentAnnouncement(latest);
-          setIsOpen(true);
-        }
+        setCurrentAnnouncement(latest);
+        setIsOpen(true);
+      } else {
+        setIsOpen(false);
       }
+    } else {
+      setIsOpen(false);
     }
-  }, [announcements]);
+  }, [announcements, isLoaded]);
 
   const handleClose = () => {
     setIsOpen(false);
-    if (currentAnnouncement) {
-      localStorage.setItem(`dismissed_announcement_${currentAnnouncement.id}`, "true");
-    }
   };
 
   // Don't show the announcement modal on admin pages
@@ -83,7 +83,7 @@ export default function AnnouncementModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 15 }}
             transition={{ type: "spring", damping: 25, stiffness: 220 }}
-            className="relative bg-white dark:bg-surface border border-accent/20 dark:border-accent/15 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden flex flex-col z-10"
+            className="relative bg-white dark:bg-surface border border-accent/20 dark:border-accent/15 w-full max-w-md rounded-2xl shadow-2xl flex flex-col z-10 max-h-[90vh] overflow-hidden"
           >
             {/* Top Header Banner */}
             <div className="relative bg-gradient-to-br from-primary-dark via-primary to-primary-dark text-white p-6 pb-8">
@@ -127,7 +127,7 @@ export default function AnnouncementModal() {
             </div>
 
             {/* Announcement Details & Content */}
-            <div className="p-6 flex-1 flex flex-col bg-surface dark:bg-surface">
+            <div className="p-6 flex-1 flex flex-col bg-surface dark:bg-surface overflow-y-auto">
               {/* Date */}
               <div className="flex items-center gap-2 text-textColor-muted text-xs font-semibold mb-4">
                 <Calendar className="w-3.5 h-3.5 text-accent" />

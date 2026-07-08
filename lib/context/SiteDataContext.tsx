@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { PROGRAMS, EVENTS, CONTACT_INFO, Program, EventItem } from "@/lib/constants";
 import { GALLERY_CONFIG, GallerySectionConfig, GalleryImage } from "@/lib/gallery-config";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -74,6 +75,7 @@ export interface SiteDataContextType {
   donationDetails: DonationDetails;
   contactInfo: typeof CONTACT_INFO;
   settings: SiteSettings;
+  isLoaded: boolean;
   
   // Setters
   updateHomepageHero: (hero: HomepageHero) => void;
@@ -98,24 +100,7 @@ const defaultHomepageHero: HomepageHero = {
   subtitle: "Guided by the Qur'an and Prophetic tradition, Badrulhuda Academy nurtures knowledgeable, compassionate, and responsible individuals prepared to serve their communities and uphold Islamic values.",
 };
 
-const defaultAnnouncements: Announcement[] = [
-  {
-    id: "1",
-    title: "Hifz Batch Admissions Open 2026",
-    date: "2026-06-20",
-    category: "Admission",
-    content: "Applications are invited for the new batch of the Quran Memorization program. Residential and scholar pathways are available.",
-    active: true,
-  },
-  {
-    id: "2",
-    title: "Distinguished Scholar Seminar",
-    date: "2026-07-15",
-    category: "Event",
-    content: "A public scholarly assembly discussing classical text reading and modern challenges at the main Badrulhuda Conference Hall.",
-    active: true,
-  },
-];
+const defaultAnnouncements: Announcement[] = [];
 
 const defaultDonationDetails: DonationDetails = {
   bankName: "Federal Bank",
@@ -161,19 +146,28 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
   const [contactInfo, setContactInfo] = useState<typeof CONTACT_INFO>(CONTACT_INFO);
   const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
 
-  // Load from Supabase (with localStorage/constants fallback for resiliency)
-  useEffect(() => {
-    async function loadData() {
-      // First populate with local storage / defaults immediately (fast response)
-      const getStored = (key: string, fallback: any) => {
-        try {
-          const item = typeof window !== "undefined" ? localStorage.getItem(`bdr_cms_${key}`) : null;
-          return item ? JSON.parse(item) : fallback;
-        } catch (e) {
-          return fallback;
-        }
-      };
+  const pathname = usePathname();
+  const lastFetchTimeRef = useRef<number>(0);
 
+  const loadData = async (force: boolean = false) => {
+    const now = Date.now();
+    // Throttle fetches on navigation to once every 60 seconds
+    if (!force && now - lastFetchTimeRef.current < 60000) {
+      return;
+    }
+    lastFetchTimeRef.current = now;
+
+    // First populate with local storage / defaults immediately (fast response) if not loaded yet
+    const getStored = (key: string, fallback: any) => {
+      try {
+        const item = typeof window !== "undefined" ? localStorage.getItem(`bdr_cms_${key}`) : null;
+        return item ? JSON.parse(item) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    };
+
+    if (!isLoaded) {
       setHomepageHero(getStored("homepageHero", defaultHomepageHero));
       setPrograms(getStored("programs", PROGRAMS));
       setGalleryConfig(getStored("galleryConfig", GALLERY_CONFIG));
@@ -184,44 +178,56 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
       setDonationDetails(getStored("donationDetails", defaultDonationDetails));
       setContactInfo(getStored("contactInfo", CONTACT_INFO));
       setSettings(getStored("settings", defaultSettings));
-
-      // Then query Supabase to overwrite with latest server-side database truth (only if configured)
-      if (isSupabaseConfigured) {
-        try {
-          const { data, error } = await supabase.from("site_content").select("*");
-          if (error) {
-            console.warn("Supabase content table not accessible. Falling back to local data. Setup SQL tables if this is a fresh setup.", error);
-          } else if (data && data.length > 0) {
-            data.forEach((row) => {
-              switch (row.key) {
-                case "homepageHero": setHomepageHero(row.value); break;
-                case "programs": setPrograms(row.value); break;
-                case "galleryConfig": setGalleryConfig(row.value); break;
-                case "events": setEvents(row.value); break;
-                case "admissionsApplications": setAdmissionsApplications(row.value); break;
-                case "orphanBeneficiaries": setOrphanBeneficiaries(row.value); break;
-                case "announcements": setAnnouncements(row.value); break;
-                case "donationDetails": setDonationDetails(row.value); break;
-                case "contactInfo": setContactInfo(row.value); break;
-                case "settings": setSettings(row.value); break;
-              }
-            });
-          }
-        } catch (e) {
-          console.warn("Unhandled exception loading data from Supabase:", e);
-        } finally {
-          setIsLoaded(true);
-        }
-      } else {
-        setIsLoaded(true);
-      }
     }
 
-    loadData();
+    // Then query Supabase to overwrite with latest server-side database truth (only if configured)
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase.from("site_content").select("*");
+        if (error) {
+          console.warn("Supabase content table not accessible. Falling back to local data. Setup SQL tables if this is a fresh setup.", error);
+        } else if (data && data.length > 0) {
+          data.forEach((row) => {
+            switch (row.key) {
+              case "homepageHero": setHomepageHero(row.value); break;
+              case "programs": setPrograms(row.value); break;
+              case "galleryConfig": setGalleryConfig(row.value); break;
+              case "events": setEvents(row.value); break;
+              case "admissionsApplications": setAdmissionsApplications(row.value); break;
+              case "orphanBeneficiaries": setOrphanBeneficiaries(row.value); break;
+              case "announcements": setAnnouncements(row.value); break;
+              case "donationDetails": setDonationDetails(row.value); break;
+              case "contactInfo": setContactInfo(row.value); break;
+              case "settings": setSettings(row.value); break;
+            }
+          });
+        }
+      } catch (e) {
+        console.warn("Unhandled exception loading data from Supabase:", e);
+      } finally {
+        setIsLoaded(true);
+      }
+    } else {
+      setIsLoaded(true);
+    }
+  };
+
+  // Load from Supabase (with localStorage/constants fallback for resiliency)
+  useEffect(() => {
+    loadData(true);
   }, []);
+
+  // Re-fetch on pathname changes (navigation) if throttled limit has passed
+  useEffect(() => {
+    // Don't re-fetch on admin pages to avoid unnecessary database queries while editing
+    if (pathname && !pathname.startsWith("/admin")) {
+      loadData(false);
+    }
+  }, [pathname]);
 
   // Save to both Supabase database and browser localStorage for resilience
   const saveItem = async (key: string, value: any) => {
+    lastFetchTimeRef.current = 0; // Clear throttle so navigation immediately re-fetches updated data
     try {
       if (typeof window !== "undefined") {
         localStorage.setItem(`bdr_cms_${key}`, JSON.stringify(value));
@@ -374,6 +380,7 @@ export function SiteDataProvider({ children }: { children: React.ReactNode }) {
         donationDetails,
         contactInfo,
         settings,
+        isLoaded,
         
         updateHomepageHero,
         updatePrograms,

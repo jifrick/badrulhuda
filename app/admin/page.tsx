@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSiteData } from "@/lib/context/SiteDataContext";
 import * as Icons from "lucide-react";
 import Image from "next/image";
+import { isSupabaseConfigured } from "@/lib/supabase";
 
 const convertToWebP = (file: File, quality: number = 0.85): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -91,7 +92,8 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passcode === "admin123") {
+    const adminPasscode = process.env.NEXT_PUBLIC_ADMIN_PASSCODE || "12345678bdr";
+    if (passcode === adminPasscode) {
       sessionStorage.setItem("bdr_admin_auth", "true");
       setIsAuthenticated(true);
       setAuthError("");
@@ -633,10 +635,21 @@ export default function AdminPage() {
             <span className="text-xs font-semibold text-slate-400 hidden sm:inline-block">
               {new Date().toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </span>
-            <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] font-extrabold tracking-widest text-emerald-400 uppercase bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">
-              Live Connection
-            </span>
+            {isSupabaseConfigured ? (
+              <>
+                <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-extrabold tracking-widest text-emerald-400 uppercase bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">
+                  Supabase Connected
+                </span>
+              </>
+            ) : (
+              <>
+                <div className="h-2 w-2 rounded-full bg-rose-500 animate-pulse" />
+                <span className="text-[10px] font-extrabold tracking-widest text-rose-400 uppercase bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-full">
+                  Offline Mode (Local Only)
+                </span>
+              </>
+            )}
           </div>
         </header>
 
