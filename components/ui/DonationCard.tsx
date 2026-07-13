@@ -2,17 +2,21 @@ import React from "react";
 import CopyButton from "./CopyButton";
 import { Info } from "lucide-react";
 
+import { useSiteData } from "@/lib/context/SiteDataContext";
+
 interface DonationCardProps {
   onDonateClick?: () => void;
 }
 
 export default function DonationCard({ onDonateClick }: DonationCardProps) {
+  const { donationDetails } = useSiteData();
+
   const bankDetails = {
-    bank: "State Bank of India",
-    branch: "Kalpetta",
-    ifsc: "SBIN0070192",
-    account: "57068195307",
-    upi: "badrulhuda@sbi",
+    bank: donationDetails.bankName || "Federal Bank",
+    branch: donationDetails.branch || "Panamaram Branch",
+    ifsc: donationDetails.ifscCode || "FDRL0001524",
+    account: donationDetails.accountNumber || "15240200008542",
+    upi: donationDetails.upiId || "badrulhudawyd@federal",
   };
 
   return (

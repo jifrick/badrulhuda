@@ -20,8 +20,7 @@ const PURPOSES = [
 const PRESET_AMOUNTS_ROW1 = [101, 313, 786];
 const PRESET_AMOUNTS_ROW2 = [1001, 2000, 5000];
 
-const getPrefilledPaymentLink = (method: string, amount: string | number, purpose: string) => {
-  const upiId = "badrulhuda@sbi";
+const getPrefilledPaymentLink = (method: string, amount: string | number, purpose: string, upiId: string) => {
   const name = "Badrulhuda Academy";
   const note = `Donation for ${purpose}`;
   
@@ -84,7 +83,11 @@ const getWhatsAppLink = (amount: string | number, purpose: string) => {
 };
 
 
+import { useSiteData } from "@/lib/context/SiteDataContext";
+
 export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
+  const { donationDetails } = useSiteData();
+  const upiId = donationDetails.upiId || "badrulhudawyd@federal";
   const [isMobile, setIsMobile] = useState(false);
   const [selectedPurpose, setSelectedPurpose] = useState("Orphan Home Care");
   const [selectedAmount, setSelectedAmount] = useState<number | "custom">(2000);
@@ -424,7 +427,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
                   
                   {/* Google Pay */}
                   <a
-                    href={getPrefilledPaymentLink("gpay", activeAmountValue, selectedPurpose)}
+                    href={getPrefilledPaymentLink("gpay", activeAmountValue, selectedPurpose, upiId)}
                     className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-surface border border-neutral-200 dark:border-neutral-800 hover:border-accent hover:shadow-[0_8px_25px_rgba(212,163,89,0.1)] transition-all duration-300 active:scale-95 group relative text-center"
                   >
                     <svg className="w-7 h-7 bg-white rounded-full p-0.5 shadow-sm group-hover:scale-105 transition-transform" viewBox="0 0 24 24">
@@ -438,7 +441,7 @@ export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
 
                   {/* PhonePe */}
                   <a
-                    href={getPrefilledPaymentLink("phonepe", activeAmountValue, selectedPurpose)}
+                    href={getPrefilledPaymentLink("phonepe", activeAmountValue, selectedPurpose, upiId)}
                     className="flex flex-col items-center justify-center p-4 rounded-2xl bg-white dark:bg-surface border border-neutral-200 dark:border-neutral-800 hover:border-accent hover:shadow-[0_8px_25px_rgba(212,163,89,0.1)] transition-all duration-300 active:scale-95 group text-center"
                   >
                     <div className="w-7 h-7 bg-[#5f259f] rounded-full flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform text-white font-black text-[9px] font-sans">

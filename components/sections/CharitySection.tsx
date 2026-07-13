@@ -8,8 +8,12 @@ import CopyButton from "../ui/CopyButton";
 import IslamicPattern from "../ui/IslamicPattern";
 import DonationModal from "../ui/DonationModal";
 
+import { useSiteData } from "@/lib/context/SiteDataContext";
+
 export default function CharitySection() {
   const [isDonateModalOpen, setIsDonateModalOpen] = React.useState(false);
+  const { donationDetails } = useSiteData();
+  const upiId = donationDetails.upiId || "badrulhudawyd@federal";
   return (
     <section id="charity" className="relative py-28 px-6 md:px-8 overflow-hidden bg-surface-alt border-t border-b border-border/40 dark:border-border/10">
       {/* Subtle Islamic geometric pattern background */}
@@ -79,7 +83,7 @@ export default function CharitySection() {
                 <div className="bg-white p-3 rounded-[18px] border border-accent/10 shadow-sm">
                   <Image
                     src="/images/qr-code-bdr.webp"
-                    alt="Badrulhuda Academy UPI QR Code — badrulhuda@sbi"
+                    alt={`Badrulhuda Academy UPI QR Code — ${upiId}`}
                     width={410}
                     height={410}
                     className="w-full h-auto object-contain"
@@ -95,9 +99,9 @@ export default function CharitySection() {
                 </p>
                 <div className="inline-flex items-center gap-2.5 bg-[#faf7f2]/50 dark:bg-stone-900/30 border border-accent/10 py-1.5 px-3 rounded-xl shadow-sm">
                   <span className="text-textColor-primary dark:text-textColor-primary font-mono text-xs font-bold tracking-wide">
-                    badrulhuda@sbi
+                    {upiId}
                   </span>
-                  <CopyButton textToCopy="badrulhuda@sbi" ariaLabel="Copy UPI ID" />
+                  <CopyButton textToCopy={upiId} ariaLabel="Copy UPI ID" />
                 </div>
 
                 {/* Pay with GPay / UPI Button */}
