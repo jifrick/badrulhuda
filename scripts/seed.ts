@@ -39,11 +39,7 @@ const defaultDonationDetails = {
   ],
 };
 
-const defaultOrphanBeneficiaries = [
-  { id: "1", childName: "Muhammad Ameen", guardianName: "Khadija", address: "Panamaram, Wayanad", phone: "9447712345", supportStatus: "Active", notes: "Sponsored since 2024" },
-  { id: "2", childName: "Fathima Najiya", guardianName: "Rahmath", address: "Kaniyambetta, Wayanad", phone: "9847254321", supportStatus: "Active", notes: "Receives monthly scholarship" },
-  { id: "3", childName: "Zainul Abid", guardianName: "Aboobacker", address: "Mananthavady, Wayanad", phone: "9562385412", supportStatus: "Active", notes: "Emergency medical support provided" },
-];
+const defaultOrphanBeneficiaries: any[] = [];
 
 const defaultSettings = {
   seoTitle: "Badrulhuda Academy | Islamic Scholars & Integrated Education",
