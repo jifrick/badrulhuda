@@ -193,7 +193,7 @@ export default function FounderSection() {
                 {/* Image Wrapper */}
                 <div className="relative w-full h-full overflow-hidden rounded-xl bg-surface-alt">
                   <Image
-                    src="/images/founder img.png"
+                    src="/images/founder image.jpeg"
                     alt="Usman Moulavi"
                     fill
                     sizes="(max-w-768px) 100vw, 285px"

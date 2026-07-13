@@ -1,0 +1,41 @@
+name: Keep Supabase Project Active
+
+on:
+  schedule:
+    # Run at 00:00 UTC every 3 days to prevent pausing
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allow running manually from the GitHub Actions tab
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "=========================================================================="
+            echo "ERROR: SUPABASE_URL or SUPABASE_ANON_KEY is missing from GitHub Secrets!"
+            echo "Please add these secrets to your repository settings:"
+            echo "1. Go to your GitHub repository -> Settings -> Secrets and variables -> Actions"
+            echo "2. Add a new repository secret:"
+            echo "   - Name: SUPABASE_URL"
+            echo "   - Value: (Your Supabase project URL, e.g. https://xxxxxx.supabase.co)"
+            echo "3. Add another repository secret:"
+            echo "   - Name: SUPABASE_ANON_KEY"
+            echo "   - Value: (Your Supabase anon/public key)"
+            echo "=========================================================================="
+            exit 1
+          fi
+          
+          echo "Sending keep-alive query to Supabase..."
+          curl -s -f -X GET "$SUPABASE_URL/rest/v1/site_content?select=key&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -o /dev/null \
+            -w "HTTP response code: %{http_code}\n"
+          
+          echo "Keep-alive ping completed successfully!"
