@@ -16,7 +16,7 @@ export default function DonationCard({ onDonateClick }: DonationCardProps) {
     branch: donationDetails.branch || "Panamaram Branch",
     ifsc: donationDetails.ifscCode || "FDRL0001524",
     account: donationDetails.accountNumber || "15240200008542",
-    upi: donationDetails.upiId || "badrulhudawyd@federal",
+    upi: donationDetails.upiId || "badrulhuda@sbi",
   };
 
   return (
