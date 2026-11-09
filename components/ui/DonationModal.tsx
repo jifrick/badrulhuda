@@ -87,7 +87,7 @@ import { useSiteData } from "@/lib/context/SiteDataContext";
 
 export default function DonationModal({ isOpen, onClose }: DonationModalProps) {
   const { donationDetails } = useSiteData();
-  const upiId = donationDetails.upiId || "badrulhudawyd@federal";
+  const upiId = donationDetails.upiId || "badrulhuda@sbi";
   const [isMobile, setIsMobile] = useState(false);
   const [selectedPurpose, setSelectedPurpose] = useState("Orphan Home Care");
   const [selectedAmount, setSelectedAmount] = useState<number | "custom">(2000);

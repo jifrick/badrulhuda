@@ -31,7 +31,7 @@ const defaultDonationDetails = {
   accountNumber: "15240200008542",
   ifscCode: "FDRL0001524",
   branch: "Panamaram Branch",
-  upiId: "badrulhudawyd@federal",
+  upiId: "badrulhuda@sbi",
   campaigns: [
     { id: "1", name: "Orphan Home Care support", target: "50,000", raised: "32,500" },
     { id: "2", name: "Mosque & Campus Expansion", target: "1,50,000", raised: "95,000" },
@@ -60,15 +60,23 @@ async function main() {
   console.log("Connected successfully!");
 
   try {
-    console.log("Creating 'site_content' table if not exists...");
+    console.log("Creating 'site_content' table if not exists and configuring RLS...");
     await client.query(`
       CREATE TABLE IF NOT EXISTS site_content (
         key TEXT PRIMARY KEY,
         value JSONB NOT NULL,
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
       );
+
+      ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
+
+      DROP POLICY IF EXISTS "Allow public read access" ON public.site_content;
+      CREATE POLICY "Allow public read access" ON public.site_content FOR SELECT USING (true);
+
+      DROP POLICY IF EXISTS "Allow public write access" ON public.site_content;
+      CREATE POLICY "Allow public write access" ON public.site_content FOR ALL USING (true) WITH CHECK (true);
     `);
-    console.log("Table check completed.");
+    console.log("Table check and RLS setup completed.");
 
     const seedData = [
       { key: "homepageHero", value: defaultHomepageHero },

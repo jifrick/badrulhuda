@@ -13,7 +13,7 @@ import { useSiteData } from "@/lib/context/SiteDataContext";
 export default function CharitySection() {
   const [isDonateModalOpen, setIsDonateModalOpen] = React.useState(false);
   const { donationDetails } = useSiteData();
-  const upiId = donationDetails.upiId || "badrulhudawyd@federal";
+  const upiId = donationDetails.upiId || "badrulhuda@sbi";
   return (
     <section id="charity" className="relative py-28 px-6 md:px-8 overflow-hidden bg-surface-alt border-t border-b border-border/40 dark:border-border/10">
       {/* Subtle Islamic geometric pattern background */}

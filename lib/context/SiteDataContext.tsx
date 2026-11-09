@@ -107,7 +107,7 @@ const defaultDonationDetails: DonationDetails = {
   accountNumber: "15240200008542",
   ifscCode: "FDRL0001524",
   branch: "Panamaram Branch",
-  upiId: "badrulhudawyd@federal",
+  upiId: "badrulhuda@sbi",
   campaigns: [
     { id: "1", name: "Orphan Home Care support", target: "50,000", raised: "32,500" },
     { id: "2", name: "Mosque & Campus Expansion", target: "1,50,000", raised: "95,000" },

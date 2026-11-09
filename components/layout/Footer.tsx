@@ -153,7 +153,7 @@ export default function Footer() {
           </span>
           <span className="flex items-center gap-2 opacity-80">
             <span className="text-white/50">Designed & Developed by</span>
-            <a href="https://yawmatic.com" target="_blank" rel="noopener noreferrer">
+            <a href="https://yawmatic.online" target="_blank" rel="noopener noreferrer">
               <Image src="/yawmatic-wordmark.png" alt="Yawmatic" height={20} width={80} className="object-contain" />
             </a>
           </span>
